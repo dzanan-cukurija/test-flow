@@ -1,4 +1,4 @@
-name: Entrypoint workflow
+name: Deploy
 
 on:
   workflow_dispatch:
@@ -15,4 +15,4 @@ jobs:
           ref: ${{ github.event.inputs.branch }}
 
       - name: Continue
-        run: echo "uso"
+        run: cat test.txt
