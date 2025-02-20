@@ -1,0 +1,21 @@
+name: Entrypoint workflow
+
+on:
+  pull_request:
+    types:
+      - opened
+    branches:
+      - main # Change this if your default branch has a different name
+jobs:
+  check-branch-name:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if PR branch name contains 'feat' or 'feature'
+        run: |
+          BRANCH_NAME="${{ github.head_ref }}"
+          if [[ "$BRANCH_NAME" =~ feat|feature ]]; then
+            echo "Branch name is valid: $BRANCH_NAME"
+          else
+            echo "Branch name does not match criteria. Exiting."
+            exit 1
+          fi
