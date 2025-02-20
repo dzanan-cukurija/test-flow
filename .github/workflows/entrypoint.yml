@@ -24,3 +24,10 @@ jobs:
 
       - name: Continue
         run: echo "uso"
+
+      - name: Trigger Another Workflow
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: "deploy.yml"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          inputs: '{"branch": "${{ github.head_ref }}"}'

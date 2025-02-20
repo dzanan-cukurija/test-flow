@@ -1,0 +1,18 @@
+name: Entrypoint workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        required: true
+jobs:
+  check-branch-name:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch }}
+
+      - name: Continue
+        run: echo "uso"
