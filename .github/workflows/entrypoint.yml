@@ -21,3 +21,6 @@ jobs:
           fi
       - name: wasup
         run: echo "wasup"
+
+      - name: Continue
+        run: echo "uso"
