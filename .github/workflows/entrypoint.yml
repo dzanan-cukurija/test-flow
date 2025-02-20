@@ -29,5 +29,6 @@ jobs:
         uses: benc-uk/workflow-dispatch@v1
         with:
           workflow: "deploy.yml"
+          ref: temp-infra
           token: ${{ secrets.GITHUB_TOKEN }}
           inputs: '{"branch": "${{ github.head_ref }}"}'
