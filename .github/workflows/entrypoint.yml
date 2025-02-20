@@ -19,5 +19,8 @@ jobs:
             echo "Branch name does not match criteria. Exiting."
             exit 1
           fi
+      - name: wasup
+        run: echo "wasup"
+
       - name: Continue
         run: echo "uso"
