@@ -2,12 +2,28 @@ name: Deploy infra
 
 on:
   workflow_dispatch:
+    inputs:
+      branch:
+        required: true
 jobs:
   deploy_infra:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch }}
 
-      - name: Continue
-        run: echo "Deploy infra workflow"
+      - name: Deploy infra
+        run: |
+          echo ${{ github.event.inputs.branch }}
+          echo "pulumi up and stuff like that"
+          echo "if success continue on the next step"
+
+      - name: Trigger deploy apps workflow
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: "deploy-apps.yml"
+          ref: main
+          token: ${{ secrets.PAT }}
+          inputs: '{"branch": "${{ github.head_ref }}"}'

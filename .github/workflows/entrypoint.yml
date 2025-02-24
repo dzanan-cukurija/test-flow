@@ -27,3 +27,4 @@ jobs:
           workflow: "deploy-infra.yml"
           ref: main
           token: ${{ secrets.PAT }}
+          inputs: '{"branch": "${{ github.head_ref }}"}'
