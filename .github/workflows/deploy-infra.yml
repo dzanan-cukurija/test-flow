@@ -8,6 +8,17 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
+        
+      - name: Deploy infra
+        run: |
+          echo ${{ github.event.inputs.branch }}
+          echo "pulumi up and stuff like that"
+          echo "if success continue on the next step"
 
-      - name: Continue
-        run: echo "Deploy infra workflow"
+      - name: Trigger deploy apps workflow
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: "deploy-apps.yml"
+          ref: main
+          token: ${{ secrets.PAT }}
+          inputs: '{"branch": "${{ github.head_ref }}"}'
