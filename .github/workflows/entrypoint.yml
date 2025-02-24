@@ -27,4 +27,4 @@ jobs:
         with:
           workflow: "deploy-infra.yml"
           ref: main
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT }}
