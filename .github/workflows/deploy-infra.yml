@@ -2,17 +2,12 @@ name: Deploy infra
 
 on:
   workflow_dispatch:
-    inputs:
-      branch:
-        required: true
 jobs:
   deploy_infra:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.inputs.branch }}
 
       - name: Continue
-        run: echo ${{ github.event.inputs.branch }}
+        run: echo "Deploy infra workflow"
