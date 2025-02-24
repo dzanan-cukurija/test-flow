@@ -1,4 +1,4 @@
-name: Entrypoint workflow
+name: Deploy apps
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
       branch:
         required: true
 jobs:
-  check-branch-name:
+  deploy_apps:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -14,5 +14,8 @@ jobs:
         with:
           ref: ${{ github.event.inputs.branch }}
 
-      - name: Continue
-        run: echo ${{ github.event.inputs.branch }}
+      - name: Branch
+        run: |
+          echo "Deploy apps workflow "
+          echo "Input branch: ${{ github.event.inputs.branch }}"
+          echo "Current branch"

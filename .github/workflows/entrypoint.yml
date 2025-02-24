@@ -5,9 +5,9 @@ on:
     types:
       - opened
     branches:
-      - main # Change this if your default branch has a different name
+      - main
 jobs:
-  check-branch-name:
+  entrypoint:
     runs-on: ubuntu-latest
     steps:
       - name: Check if PR branch name contains 'feat' or 'feature'
@@ -22,13 +22,9 @@ jobs:
       - name: wasup
         run: echo "wasup"
 
-      - name: Continue
-        run: echo "uso"
-
-      - name: Trigger Another Workflow
+      - name: Trigger Infra Workflow
         uses: benc-uk/workflow-dispatch@v1
         with:
-          workflow: "deploy.yml"
-          ref: temp-infra
+          workflow: "deploy-infra.yml"
+          ref: main
           token: ${{ secrets.GITHUB_TOKEN }}
-          inputs: '{"branch": "${{ github.head_ref }}"}'

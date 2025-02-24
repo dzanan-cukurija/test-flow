@@ -1,4 +1,4 @@
-name: Entrypoint workflow
+name: Destroy infra
 
 on:
   workflow_dispatch:
@@ -6,13 +6,18 @@ on:
       branch:
         required: true
 jobs:
-  check-branch-name:
+  destroy_infra:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.inputs.branch }}
 
-      - name: Continue
-        run: echo ${{ github.event.inputs.branch }}
+      - name: Deploy infra
+        run: echo "Deploy infra workflow"
+
+      - name: Trigger app deployment workflow
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: "deploy-apps.yml"
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
