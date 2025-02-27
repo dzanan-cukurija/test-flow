@@ -1,30 +1,24 @@
-name: Entrypoint workflow
+# .github/workflows/workflow-1.yml
+name: PR Created - Check Feature Branch
 
 on:
   pull_request:
-    types: [assigned, opened, synchronize, reopened]
+    types: [opened, synchronize, reopened]
     branches:
-      - main
+      - main # Or whatever the target branch is
+
 jobs:
-  entrypoint:
+  check-branch-name:
     runs-on: ubuntu-latest
     steps:
-      - name: Check if PR branch name contains 'feat' or 'feature'
+      - name: Check if branch name contains "feat" or "feature"
         run: |
-          BRANCH_NAME="${{ github.head_ref }}"
-          if [[ "$BRANCH_NAME" =~ feat|feature ]]; then
-            echo "Branch name is valid: $BRANCH_NAME"
-          else
-            echo "Branch name does not match criteria. Exiting."
-            exit 1
+          branch_name="${{ github.head_ref }}"
+          if [[ ! "$branch_name" =~ ^(feat|feature) ]]; then
+            echo "Branch name doesn't contain 'feat' or 'feature', skipping workflow.";
+            exit 0;
           fi
-      - name: wasup
-        run: echo "wasup"
-
-      - name: Trigger Infra Workflow
-        uses: benc-uk/workflow-dispatch@v1
+      - name: Trigger Workflow 2 with branch name as input
+        uses: ./.github/workflows/deploy-infra.yml # Call the workflow directly here
         with:
-          workflow: "deploy-infra.yml"
-          ref: main
-          token: ${{ secrets.PAT }}
-          inputs: '{"branch": "${{ github.head_ref }}"}'
+          branch_name: ${{ github.head_ref }} # Pass feature branch name as input
