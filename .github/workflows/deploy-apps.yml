@@ -12,10 +12,6 @@ on:
     branches:
       - "feat/*"
       - "feature/*"
-  pull_request:
-    types: [opened, synchronize, reopened]
-    branches:
-      - main
 jobs:
   deploy_apps:
     runs-on: ubuntu-latest
