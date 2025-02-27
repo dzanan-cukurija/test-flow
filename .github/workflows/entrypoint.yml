@@ -23,6 +23,6 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Trigger Workflow 2 with branch name as input
-        uses: ./.github/workflows/deploy-infra.yml # Call the workflow directly here
+        uses: dzanan-cukurija/test-flow/.github/workflows/deploy-infra.yml@main # Call the workflow directly here
         with:
           branch_name: ${{ github.head_ref }} # Pass feature branch name as input
