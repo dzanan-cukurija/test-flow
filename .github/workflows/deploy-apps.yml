@@ -5,6 +5,9 @@ on:
     inputs:
       branch_name:
         required: true
+      pr_opened:
+        type: boolean
+        required: true
   push:
     branches:
       - "feat/*"
@@ -17,6 +20,10 @@ jobs:
   deploy_apps:
     runs-on: ubuntu-latest
     steps:
+      - name: Check if PR opened
+        if: !inputs.pr_opened
+        run: exit 1
+
       - name: checkout
         uses: actions/checkout@v4
         with:
