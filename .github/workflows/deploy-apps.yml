@@ -16,16 +16,13 @@ jobs:
   deploy_apps:
     runs-on: ubuntu-latest
     steps:
-      - name: Check if PR opened
-        if: inputs.pr_opened == false
-        run: exit 1
-
       - name: checkout
         uses: actions/checkout@v4
         with:
           ref: ${{ inputs.branch_name }}
 
       - name: Branch
+        if: ${{ inputs.pr_opened }}
         run: |
           echo "Deploy apps workflow "
           echo "Input branch: ${{ inputs.branch_name }}"
