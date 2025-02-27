@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check if PR opened
-        if: !inputs.pr_opened
+        if: inputs.pr_opened == false
         run: exit 1
 
       - name: checkout
