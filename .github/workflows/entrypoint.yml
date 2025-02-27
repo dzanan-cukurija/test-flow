@@ -18,6 +18,10 @@ jobs:
             echo "Branch name doesn't contain 'feat' or 'feature', skipping workflow.";
             exit 0;
           fi
+
+      - name: checkout
+        uses: actions/checkout@v4
+
       - name: Trigger Workflow 2 with branch name as input
         uses: ./.github/workflows/deploy-infra.yml # Call the workflow directly here
         with:
