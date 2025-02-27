@@ -3,8 +3,16 @@ name: Deploy apps
 on:
   workflow_dispatch:
     inputs:
-      branch:
+      branch_name:
         required: true
+  push:
+    branches:
+      - "feat/*"
+      - "feature/*"
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
 jobs:
   deploy_apps:
     runs-on: ubuntu-latest
@@ -12,10 +20,10 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.inputs.branch }}
+          ref: ${{ inputs.branch_name }}
 
       - name: Branch
         run: |
           echo "Deploy apps workflow "
-          echo "Input branch: ${{ github.event.inputs.branch }}"
+          echo "Input branch: ${{ inputs.branch_name }}"
           echo "Current branch"

@@ -3,7 +3,7 @@ name: Deploy
 on:
   workflow_dispatch:
     inputs:
-      branch:
+      branch_name:
         required: true
 jobs:
   deploy:
@@ -12,7 +12,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.inputs.branch }}
+          ref: ${{ inputs.branch_name }}
 
       - name: Continue
         run: cat test.txt
