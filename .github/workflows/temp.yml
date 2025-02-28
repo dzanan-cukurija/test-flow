@@ -61,7 +61,6 @@ jobs:
   deploy-apps:
     runs-on: ubuntu-latest
     needs: deploy-infra
-    if: ${{ needs.deploy-infra.outputs.DEPLOY }}
     steps:
       - name: AWS configure
         run: echo "configure aws"
