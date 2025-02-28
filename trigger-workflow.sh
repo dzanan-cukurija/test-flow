@@ -10,7 +10,7 @@ fi
 
 WORKFLOW_NAME="$1"  # Workflow filename (e.g., workflow2.yml)
 BRANCH_NAME="$2"  # Branch name (e.g., feat/something)
-
+GITHUB_TOKEN="$3"
 # Validate environment variables
 if [ -z "$GITHUB_REPOSITORY" ]; then
   echo "Error: GITHUB_REPOSITORY environment variable not set."
