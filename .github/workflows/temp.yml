@@ -24,7 +24,29 @@ jobs:
   deploy-infra:
     runs-on: ubuntu-latest
     needs: check-branch-name
+    outputs:
+      infra_provisioned: ${{ steps.check-cache.outputs.cache-hit }} # Track if infra is provisioned
     steps:
+      - name: Check if infra is already provisioned
+        id: check-cache
+        uses: actions/cache@v3
+        with:
+          path: ./infra_provisioned
+          key: infra-${{ github.event.pull_request.number }}
+
+      - name: Deploy Infrastructure (Only if not provisioned)
+        if: steps.check-cache.outputs.cache-hit != 'true'
+        run: |
+          echo "Provisioning infrastructure..."
+          touch infra_provisioned
+
+      - name: Store infra state
+        if: steps.check-cache.outputs.cache-hit != 'true'
+        uses: actions/cache@v3
+        with:
+          path: ./infra_provisioned
+          key: infra-${{ github.event.pull_request.number }}
+
       - name: pulumi login
         id: pulumi-login
         run: echo "pulumi login"
@@ -35,12 +57,11 @@ jobs:
         run: echo "configure aws"
       - name: Pulumi up
         run: echo "pulumi up -f"
-      - name: Done
-        run: ${{ github.env.DEPLOY }}=true
 
   deploy-apps:
     runs-on: ubuntu-latest
-    if: ${{ github.env.DEPLOY }}
+    needs: deploy-infra
+    if: ${{ needs.deploy-infra.outputs.DEPLOY }}
     steps:
       - name: AWS configure
         run: echo "configure aws"
