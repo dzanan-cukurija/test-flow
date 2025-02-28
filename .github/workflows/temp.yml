@@ -1,0 +1,70 @@
+name: Temporarry environment
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main # Or whatever the target branch is
+jobs:
+  check-branch-name:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if branch name contains "feat" or "feature"
+        run: |
+          branch_name="${{ github.head_ref }}"
+          if [[ ! "$branch_name" =~ ^(feat|feature) ]]; then
+            echo "Branch name doesn't contain 'feat' or 'feature', skipping workflow.";
+            exit 0;
+          fi
+  deploy-infra:
+    runs-on: ubuntu-latest
+    needs: check-branch-name
+    steps:
+      - name: pulumi login
+        id: pulumi-login
+        run: echo "pulumi login"
+      - name: select stack
+        id: pulumi-stack-select
+        run: echo "pulumi stack select t"
+      - name: AWS configure
+        run: echo "configure aws"
+      - name: Pulumi up
+        run: echo "pulumi up -f"
+  deploy-apps:
+    runs-on: ubuntu-latest
+    needs: deploy-infra
+    steps:
+      - name: AWS configure
+        run: echo "configure aws"
+      - name: ECR configure
+        run: echo "ECR login"
+      - name: Docker build and push
+        run: echo "docker build"
+      - name: Deploy
+        run: echo "Deploy to ECS"
+      - name: Build website
+        run: echo "build website"
+      - name: Sync s3
+        run: |
+          echo "s3 sync"
+          echo "cloudfront invaidation"
+  check-reviews:
+    runs-on: ubuntu-latest
+    needs: deploy-apps
+    steps:
+      - name: Check reviews
+        run: echo "if 2 reviews pass else fail"
+  destroy-infra:
+    runs-on: ubuntu-latest
+    needs: check-reviews
+    steps:
+      - name: pulumi login
+        id: pulumi-login
+        run: echo "pulumi login"
+      - name: select stack
+        id: pulumi-stack-select
+        run: echo "pulumi stack select t"
+      - name: AWS configure
+        run: echo "configure aws"
+      - name: Pulumi destroy
+        run: echo "pulumi destroy -f"

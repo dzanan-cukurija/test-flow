@@ -26,4 +26,6 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Trigger deploy infra
-        run: ./trigger-workflow.sh "deploy-infra.yml" "${{ github.head_ref }}" "${{ secrets.PAT }}"
+        run: |
+          export GITHUB_REPOSITORY=${GITHUB_REPOSITORY#*/}
+          ./trigger-workflow.sh "deploy-infra.yml" "${{ github.head_ref }}" "${{ secrets.PAT }}"
