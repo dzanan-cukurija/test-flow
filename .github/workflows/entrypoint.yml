@@ -20,6 +20,6 @@ jobs:
           fi
   trigger_deploy:
     needs: check-branch-name
-    uses: dzanan-cukurija/test-flow/.github/workflows/deploy-infra.yml@main # Call the workflow directly here
+    uses: dzanan-cukurija/test-flow/.github/workflows/deploy-infra.yml@main
     with:
       branch_name: ${{ github.head_ref }}

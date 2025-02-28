@@ -14,6 +14,11 @@ on:
     branches:
       - "feat/*"
       - "feature/*"
+
+permissions:
+  id-token: write # Required for requesting the JWT through OIDC
+  contents: read
+
 jobs:
   deploy_apps:
     runs-on: ubuntu-latest
