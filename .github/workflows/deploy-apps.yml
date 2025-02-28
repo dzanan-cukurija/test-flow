@@ -1,13 +1,15 @@
 name: Deploy apps
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       branch_name:
         required: true
+        type: string
       pr_opened:
         type: boolean
         required: true
+        default: false
   push:
     branches:
       - "feat/*"
