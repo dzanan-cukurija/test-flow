@@ -8,9 +8,6 @@ on:
         description: "Feature Branch Name"
         required: true
 
-permissions:
-  contents: read
-
 jobs:
   provision-infrastructure:
     runs-on: ubuntu-latest
@@ -23,8 +20,8 @@ jobs:
           echo "Provisioning infrastructure for branch ${{ inputs.branch_name }}..."
           # Your provisioning script/commands go here
 
-      - name: Trigger Workflow 3 with branch name as input
-        if: success()
-        uses: ./.github/workflows/deploy-apps.yml # Call Workflow 3
-        with:
-          branch_name: ${{ inputs.branch_name }} # Pass the feature branch name to Workflow 3
+      # - name: Trigger Workflow 3 with branch name as input
+      #   if: success()
+      #   uses: ./.github/workflows/deploy-apps.yml # Call Workflow 3
+      #   with:
+      #     branch_name: ${{ inputs.branch_name }} # Pass the feature branch name to Workflow 3
