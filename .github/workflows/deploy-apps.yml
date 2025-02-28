@@ -16,7 +16,6 @@ on:
       - "feature/*"
 
 permissions:
-  id-token: write # Required for requesting the JWT through OIDC
   contents: read
 
 jobs:
